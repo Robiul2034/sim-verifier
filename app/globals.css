@@ -1,20 +1,31 @@
 @import url('https://fonts.maateen.me/solaiman-lipi/font.css');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  --background: #f0fdf4; /* হালকা সবুজ ব্যাকগ্রাউন্ড */
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: 'SolaimanLipi', Arial, Helvetica, sans-serif;
+}
 
 body {
-  font-family: 'SolaimanLipi', sans-serif;
-  background-color: #f0fdf4; /* হালকা সবুজ ব্যাকগ্রাউন্ড */
-  background-image: radial-gradient(at 0% 0%, hsla(142, 71%, 45%, 0.15) 0px, transparent 50%),
-                    radial-gradient(at 100% 100%, hsla(142, 71%, 45%, 0.1) 0px, transparent 50%);
+  background-color: var(--background);
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(142, 71%, 45%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(142, 71%, 45%, 0.1) 0px, transparent 50%);
   background-attachment: fixed;
+  color: var(--foreground);
+  font-family: 'SolaimanLipi', Arial, Helvetica, sans-serif;
   min-height: 100vh;
   margin: 0;
   padding: 0;
 }
 
+/* আধুনিক গ্লাস কার্ডের জন্য কাস্টম স্টাইল */
 .glass-card {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);

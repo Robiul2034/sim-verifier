@@ -6,19 +6,17 @@
 
 body {
   font-family: 'SolaimanLipi', sans-serif;
-  background-color: #f0f4f0; /* হালকা সবুজাভ ধূসর */
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(142, 71%, 45%, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, hsla(142, 71%, 45%, 0.1) 0px, transparent 50%);
+  background-color: #f0fdf4; /* হালকা সবুজ ব্যাকগ্রাউন্ড */
+  background-image: radial-gradient(at 0% 0%, hsla(142, 71%, 45%, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, hsla(142, 71%, 45%, 0.1) 0px, transparent 50%);
   background-attachment: fixed;
   min-height: 100vh;
   margin: 0;
   padding: 0;
 }
 
-/* আধুনিক গ্লাস কার্ডের জন্য কাস্টম স্টাইল */
 .glass-card {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -26,7 +24,7 @@ body {
 }
 
 .glass-input {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }

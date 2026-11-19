@@ -13,11 +13,11 @@ export async function POST(req: Request) {
     const targetUrl = "https://secure.incometax.gov.bd/TinApplication/VerifyMobileAgainstNid";
 
     for (const phone of phones) {
-      if (!phone.trim()) continue; // ফাঁকা ইনপুট স্কিপ করবে
+      if (!phone.trim()) continue;
 
       const postData = new URLSearchParams({
         'NID': nid,
-        'DOB': dob, // ফরম্যাট হবে YYYY-MM-DD
+        'DOB': dob,
         'mobileNumber': phone.trim()
       });
 
@@ -42,15 +42,30 @@ export async function POST(req: Request) {
         jsonResponse = { error: "Invalid response" };
       }
 
+      // আপনার দেওয়া JSON ফরম্যাট অনুযায়ী রেসপন্স তৈরি
       if (jsonResponse.ErrorMessage === 'Invalid National ID (NID)') {
-        results.push({ phone, status: "Failed", message: "Invalid National ID (NID)" });
+        results.push({ 
+          phone, 
+          success: false, 
+          message: "Invalid National ID (NID)",
+          name: null
+        });
       } else if (jsonResponse.success === false) {
-        results.push({ phone, status: "Failed", message: jsonResponse.ErrorMessage || "Verification failed" });
+        results.push({ 
+          phone, 
+          success: false, 
+          message: jsonResponse.ErrorMessage || "Verification failed",
+          name: null
+        });
       } else {
-        results.push({ phone, status: "Verified", message: "Matches" });
+        results.push({ 
+          phone, 
+          success: true, 
+          message: "Biometric verification successfully!",
+          name: jsonResponse.name || "Verified User" // যদি গভর্নমেন্ট API নাম দেয়
+        });
       }
 
-      // সার্ভার ব্লক এড়াতে ০.৫ সেকেন্ড বিরতি
       await new Promise(resolve => setTimeout(resolve, 500));
     }
 

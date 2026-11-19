@@ -4,9 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function Home() {
-  const [view, setView] = useState<"dashboard" | "verify">("dashboard");
-  
-  // Verification states
+  const [view, setView] = useState<"dashboard" | "verify">("verify"); // Default to verify for this page
   const [nid, setNid] = useState("");
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
@@ -47,7 +45,7 @@ export default function Home() {
       const data = await res.json();
       if (data.success) setResults(data.data);
       else alert(data.message);
-    } catch (error) { alert("Network error."); } 
+    } catch (error) { alert("Network error."); }
     finally { setLoading(false); }
   };
 
@@ -58,173 +56,149 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center py-6 px-4">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8 px-4">
       
-      {/* প্রিমিয়াম হেডার */}
-      <header className="w-full max-w-5xl bg-white/70 backdrop-blur-lg border border-white/40 shadow-sm rounded-2xl p-4 flex justify-between items-center mb-8">
+      {/* Official Government Header */}
+      <header className="w-full max-w-4xl flex justify-between items-center border-b-2 border-green-700 pb-4 mb-6">
         <div className="flex items-center gap-4">
-          <Image src="/govt-logo.png" alt="Govt of Bangladesh" width={50} height={50} className="object-contain" />
-          <Image src="/btrc-logo.png" alt="BTRC" width={50} height={50} className="object-contain" />
-          <div className="hidden sm:block">
-            <h2 className="text-sm font-bold text-green-900">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h2>
-            <h3 className="text-xs text-gray-600">Bangladesh Telecommunication Regulatory Commission</h3>
+          {/* Government Seal Logo */}
+          <div className="w-16 h-16 relative">
+            <Image 
+              src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" 
+              alt="Government Seal of Bangladesh" 
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-green-800">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h2>
+            <h3 className="text-sm font-semibold text-gray-700">Bangladesh Telecommunication Regulatory Commission</h3>
           </div>
         </div>
-        <Image src="/upac-logo.png" alt="UPAC" width={40} height={40} className="object-contain" />
+        {/* BTRC Logo */}
+        <div className="w-16 h-16 relative hidden sm:block">
+          <Image 
+            src="https://lims.btrc.gov.bd/assets/images/btrc-logo-updated.png" 
+            alt="BTRC Logo" 
+            fill
+            className="object-contain"
+          />
+        </div>
       </header>
 
-      {/* মেইন কন্টেন্ট */}
-      <main className="w-full max-w-5xl">
+      {/* Main Content */}
+      <main className="w-full max-w-4xl bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
         
-        {/* === ড্যাশবোর্ড ভিউ === */}
-        {view === "dashboard" && (
-          <div className="animate-fade-in">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">Digital Service Portal</h1>
-              <p className="text-gray-500">Select a service below to proceed</p>
-            </div>
+        {/* Portal Title */}
+        <div className="bg-gray-50 border-b border-gray-200 p-6 text-center">
+          <h1 className="text-2xl font-bold text-gray-800">BTRC SIM Ownership Verification Portal</h1>
+          <h2 className="text-xl font-bold text-gray-800 mt-1">বিটিআরসি সিম মালিকানা যাচাই পোর্টাল</h2>
+        </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* SIM Verification Card (Active) */}
-              <div 
-                onClick={() => setView("verify")}
-                className="bg-white/80 backdrop-blur-md border border-green-100 rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
-              >
-                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
-                  📱
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">SIM Verification</h3>
-                <p className="text-sm text-gray-500 mb-4">Check how many SIMs are registered under your NID and verify ownership.</p>
-                <span className="text-green-600 font-semibold text-sm flex items-center gap-1">Start Service →</span>
-              </div>
-
-              {/* Placeholder Cards for more services */}
-              <div className="bg-white/50 backdrop-blur-sm border border-gray-200 rounded-3xl p-6 shadow-sm opacity-70">
-                <div className="w-14 h-14 bg-gray-100 text-gray-400 rounded-2xl flex items-center justify-center text-2xl mb-4">
-                  🪪
-                </div>
-                <h3 className="text-xl font-bold text-gray-600 mb-2">NID Status Check</h3>
-                <p className="text-sm text-gray-400 mb-4">Check the status of your National ID card application.</p>
-                <span className="text-gray-400 font-semibold text-sm">Coming Soon</span>
-              </div>
-
-              <div className="bg-white/50 backdrop-blur-sm border border-gray-200 rounded-3xl p-6 shadow-sm opacity-70">
-                <div className="w-14 h-14 bg-gray-100 text-gray-400 rounded-2xl flex items-center justify-center text-2xl mb-4">
-                  🛂
-                </div>
-                <h3 className="text-xl font-bold text-gray-600 mb-2">Passport Verification</h3>
-                <p className="text-sm text-gray-400 mb-4">Verify your passport details and application status.</p>
-                <span className="text-gray-400 font-semibold text-sm">Coming Soon</span>
-              </div>
-            </div>
+        <div className="p-6 md:p-8">
+          {/* Instructions */}
+          <div className="mb-6 text-sm text-gray-700">
+            <p>Please enter your NID number and Date of Birth to verify the number of SIMs registered under your name.</p>
+            <p className="font-semibold mt-1">আপনার এনআইডি নম্বর এবং জন্ম তারিখ দিয়ে আপনার নামে নিবন্ধিত সিমের সংখ্যা যাচাই করুন।</p>
           </div>
-        )}
 
-        {/* === ভেরিফিকেশন ভিউ === */}
-        {view === "verify" && (
-          <div className="bg-white/80 backdrop-blur-xl border border-white/50 rounded-3xl shadow-2xl p-6 md:p-10 animate-slide-up">
-            <button 
-              onClick={() => { setView("dashboard"); setResults(null); }}
-              className="text-gray-500 hover:text-green-700 mb-6 flex items-center gap-2 font-medium transition"
-            >
-              ← Back to Dashboard
-            </button>
-
-            <div className="text-center mb-8 border-b pb-6">
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">BTRC SIM Ownership Verification</h1>
-              <h2 className="text-lg font-semibold text-gray-600">বিটিআরসি সিম মালিকানা যাচাই পোর্টাল</h2>
+          {/* Form Section */}
+          <div className="space-y-5">
+            {/* NID Input */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">NID Number (এনআইডি নম্বর)</label>
+              <input
+                type="text"
+                value={nid}
+                onChange={(e) => setNid(e.target.value)}
+                className="w-full md:w-1/2 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 focus:border-green-600 outline-none transition"
+                placeholder="e.g. 1234567890"
+              />
             </div>
 
-            <div className="space-y-6">
-              {/* NID & DOB */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">NID Number (এনআইডি নম্বর)</label>
-                  <input
-                    type="text"
-                    value={nid}
-                    onChange={(e) => setNid(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-                    placeholder="e.g. 1234567890"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Date of Birth (জন্ম তারিখ)</label>
-                  <div className="flex gap-2">
-                    <select value={day} onChange={(e) => setDay(e.target.value)} className="w-1/3 px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none">
-                      <option value="">Day</option>
-                      {days.map(d => <option key={d} value={d}>{d}</option>)}
-                    </select>
-                    <select value={month} onChange={(e) => setMonth(e.target.value)} className="w-1/3 px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none">
-                      <option value="">Month</option>
-                      {months.map(m => <option key={m} value={m}>{m}</option>)}
-                    </select>
-                    <select value={year} onChange={(e) => setYear(e.target.value)} className="w-1/3 px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none">
-                      <option value="">Year</option>
-                      {years.map(y => <option key={y} value={y}>{y}</option>)}
-                    </select>
-                  </div>
-                </div>
+            {/* Date of Birth Selectors */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">Date of Birth (জন্ম তারিখ)</label>
+              <div className="flex gap-2 items-center">
+                <select value={day} onChange={(e) => setDay(e.target.value)} className="w-24 px-2 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 outline-none">
+                  <option value="">Day</option>
+                  {days.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+                <select value={month} onChange={(e) => setMonth(e.target.value)} className="w-28 px-2 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 outline-none">
+                  <option value="">Month</option>
+                  {months.map(m => <option key={m} value={m}>{m}</option>)}
+                </select>
+                <select value={year} onChange={(e) => setYear(e.target.value)} className="w-28 px-2 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 outline-none">
+                  <option value="">Year</option>
+                  {years.map(y => <option key={y} value={y}>{y}</option>)}
+                </select>
               </div>
+            </div>
 
-              {/* Auto-reveal Phone Inputs */}
-              {showPhoneInputs && (
-                <div className="mt-8 pt-6 border-t border-gray-200 animate-fade-in">
-                  <p className="text-sm font-semibold text-gray-700 mb-4">Please enter the phone numbers to verify:</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    {phones.map((phone, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <span className="text-sm font-bold text-gray-400 w-12">{index + 1}.</span>
-                        <input
-                          type="text"
-                          value={phone}
-                          onChange={(e) => handlePhoneChange(index, e.target.value)}
-                          className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none font-mono"
-                          placeholder="01XXXXXXXXX"
-                        />
-                      </div>
-                    ))}
-                  </div>
+            {/* Auto-Revealed Phone Inputs Section */}
+            {showPhoneInputs && (
+              <div className="mt-6 pt-6 border-t border-gray-200 animate-fade-in">
+                <p className="text-sm font-semibold text-gray-700 mb-4">
+                  Please list the phone numbers you currently use to confirm ownership:<br/>
+                  <span className="font-normal text-gray-600">আপনি বর্তমানে যে ফোন নম্বর ব্যবহার করছেন তার তালিকা দিন মালিকানা নিশ্চিত করতে:</span>
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  {phones.map((phone, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-gray-500 w-16">{index + 1}. SIM {index + 1}</span>
+                      <input
+                        type="text"
+                        value={phone}
+                        onChange={(e) => handlePhoneChange(index, e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 outline-none font-mono"
+                        placeholder="01XXXXXXXXX"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="text-center">
                   <button 
                     onClick={handleVerifyPhones} 
                     disabled={loading} 
-                    className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-200 transition-all disabled:opacity-50"
+                    className="w-full sm:w-auto bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-800 transition-all disabled:opacity-50"
                   >
                     {loading ? "Verifying..." : "Confirm Ownership (মালিকানা নিশ্চিত করুন)"}
                   </button>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Results */}
-              {results && (
-                <div className="mt-8 pt-6 border-t border-gray-200 animate-fade-in">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">Verification Results</h3>
-                  <div className="space-y-3">
-                    {results.map((res, idx) => (
-                      <div key={idx} className={`flex flex-col p-4 rounded-xl border ${res.success ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}>
-                        <div className="flex justify-between items-center">
-                          <span className="font-mono text-gray-800 font-bold">{res.phone}</span>
-                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${res.success ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"}`}>
-                            {res.success ? "Verified" : "Failed"}
-                          </span>
-                        </div>
-                        {res.success && res.name && (
-                          <div className="text-sm text-green-800 mt-2 font-semibold">Name: {res.name}</div>
-                        )}
-                        {!res.success && <div className="text-sm text-red-600 mt-2">{res.message}</div>}
+            {/* Results Section */}
+            {results && (
+              <div className="mt-8 pt-6 border-t border-gray-200 animate-fade-in">
+                <h3 className="text-lg font-bold text-gray-800 mb-4">Verification Results</h3>
+                <div className="space-y-2">
+                  {results.map((res, idx) => (
+                    <div key={idx} className={`p-3 border rounded-lg ${res.success ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}>
+                      <div className="flex justify-between items-center">
+                        <span className="font-mono text-gray-800 font-medium">{res.phone}</span>
+                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${res.success ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"}`}>
+                          {res.success ? "Verified" : "Failed"}
+                        </span>
                       </div>
-                    ))}
-                  </div>
+                      {res.success && res.name && (
+                        <div className="text-sm text-green-800 mt-1 font-semibold">Name: {res.name}</div>
+                      )}
+                      {!res.success && <div className="text-sm text-red-600 mt-1">{res.message}</div>}
+                    </div>
+                  ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </main>
       
-      {/* ফুটার */}
-      <footer className="mt-12 text-center text-xs text-gray-400">
-        &copy; 2024 BTRC Digital Services. All rights reserved.
+      {/* Footer */}
+      <footer className="mt-8 text-center text-xs text-gray-500">
+        &copy; 2024 Bangladesh Telecommunication Regulatory Commission. All rights reserved.
       </footer>
     </div>
   );

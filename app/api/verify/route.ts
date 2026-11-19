@@ -35,35 +35,14 @@ export async function POST(req: Request) {
 
       const text = await response.text();
       let jsonResponse;
-      
-      try {
-        jsonResponse = JSON.parse(text);
-      } catch (e) {
-        jsonResponse = { error: "Invalid response" };
-      }
+      try { jsonResponse = JSON.parse(text); } catch (e) { jsonResponse = { error: "Invalid response" }; }
 
-      // আপনার দেওয়া JSON ফরম্যাট অনুযায়ী রেসপন্স তৈরি
       if (jsonResponse.ErrorMessage === 'Invalid National ID (NID)') {
-        results.push({ 
-          phone, 
-          success: false, 
-          message: "Invalid National ID (NID)",
-          name: null
-        });
+        results.push({ phone, success: false, message: "Invalid National ID (NID)", name: null });
       } else if (jsonResponse.success === false) {
-        results.push({ 
-          phone, 
-          success: false, 
-          message: jsonResponse.ErrorMessage || "Verification failed",
-          name: null
-        });
+        results.push({ phone, success: false, message: jsonResponse.ErrorMessage || "Verification failed", name: null });
       } else {
-        results.push({ 
-          phone, 
-          success: true, 
-          message: "Biometric verification successfully!",
-          name: jsonResponse.name || "Verified User" // যদি গভর্নমেন্ট API নাম দেয়
-        });
+        results.push({ phone, success: true, message: "Biometric verification successfully!", name: jsonResponse.name || "Verified User" });
       }
 
       await new Promise(resolve => setTimeout(resolve, 500));

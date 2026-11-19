@@ -18,3 +18,20 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org', // লোগোর জন্য পারমিশন
+      },
+      {
+        protocol: 'https',
+        hostname: 'lims.btrc.gov.bd',
+      }
+    ],
+  },
+};
+
+export default nextConfig;
